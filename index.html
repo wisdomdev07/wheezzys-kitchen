@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth scroll-pt-20">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheezzy's Kitchen</title>
+    <meta name="description" content="Grilled chicken, fresh-baked pizza and stacked burgers, cooked to order at Wheezzy's Kitchen.">
+    <meta name="theme-color" content="#24160F">
+
+    <!-- Social preview. After you publish, replace the og:url with your real address. -->
+    <meta property="og:type" content="restaurant.restaurant">
+    <meta property="og:title" content="Wheezzy's Kitchen">
+    <meta property="og:description" content="Authentic flavors, crafted with passion. Grilled, baked and stacked to order.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2324160F'/%3E%3Ctext x='50' y='70' font-size='60' font-weight='800' text-anchor='middle' fill='%23FFB81C' font-family='Arial,sans-serif'%3EW%3C/text%3E%3C/svg%3E">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80">
+
+    <script type="application/ld+json">
+    { "@context": "https://schema.org", "@type": "Restaurant", "name": "Wheezzy's Kitchen",
+      "servesCuisine": ["Comfort food", "Pizza", "Burgers", "Grilled chicken"],
+      "openingHours": "Mo-Su 11:00-22:00" }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (window.tailwind) tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        char: '#24160F',
+                        chili: '#D8381B',
+                        sauce: '#8E2410',
+                        saffron: '#FFB81C',
+                        butter: '#FFF0C7'
+                    },
+                    fontFamily: {
+                        display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+                        sans: ['Figtree', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        :focus-visible { outline: 3px solid #FFB81C; outline-offset: 3px; }
+        .on-light :focus-visible { outline-color: #8E2410; }
+
+        .hero-bg {
+            background-image:
+                linear-gradient(180deg, rgba(36,22,15,.55) 0%, rgba(36,22,15,.35) 35%, rgba(36,22,15,.92) 100%),
+                url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-color: #24160F;
+        }
+
+        /* One orchestrated moment: the hero headline rises in, line by line */
+        @keyframes rise {
+            from { transform: translateY(110%); }
+            to   { transform: translateY(0); }
+        }
+        .line { display: block; overflow: hidden; padding-bottom: .08em; }
+        .line > span { display: block; animation: rise .9s cubic-bezier(.2,.7,.1,1) both; }
+        .line:nth-child(2) > span { animation-delay: .12s; }
+        .line:nth-child(3) > span { animation-delay: .24s; }
+        .fade-in { animation: fadein .8s .6s ease both; }
+        @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+
+        .leader { flex: 1; border-bottom: 2px dotted rgba(36,22,15,.35); transform: translateY(-.3em); min-width: 1rem; }
+
+        .drawer { transition: transform .3s ease; }
+        .drawer[aria-hidden="true"] { transform: translateX(100%); visibility: hidden; transition: transform .3s ease, visibility 0s .3s; }
+        .scrim { transition: opacity .3s ease; }
+        .scrim[data-open="false"] { opacity: 0; pointer-events: none; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .line > span, .fade-in { animation: none; }
+            .drawer, .scrim { transition: none; }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body class="bg-butter font-sans antialiased text-char">
+
+    <a href="#menu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:bg-saffron focus:text-char focus:px-4 focus:py-2 focus:rounded">Skip to menu</a>
+
+    <!-- Navigation -->
+    <header class="fixed inset-x-0 top-0 z-50 bg-char/95 backdrop-blur text-white">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Main">
+            <a href="#home" class="font-display font-extrabold text-xl sm:text-2xl tracking-tight">Wheezzy's <span class="text-saffron">Kitchen</span></a>
+
+            <div class="hidden md:flex items-center gap-8 text-[15px] font-medium">
+                <a href="#menu" class="hover:text-saffron">Menu</a>
+                <a href="#about" class="hover:text-saffron">About</a>
+                <a href="#visit" class="hover:text-saffron">Visit</a>
+                <button type="button" data-open-tray class="bg-saffron text-char font-semibold px-5 py-2 rounded-full hover:bg-white inline-flex items-center gap-2">
+                    Your tray
+                    <span data-tray-count class="bg-char text-white text-xs font-bold min-w-[1.4rem] h-[1.4rem] px-1 rounded-full inline-flex items-center justify-center">0</span>
+                </button>
+            </div>
+
+            <div class="md:hidden flex items-center gap-2">
+                <button type="button" data-open-tray class="bg-saffron text-char text-sm font-semibold px-4 py-2 rounded-full inline-flex items-center gap-2" aria-label="Open your tray">
+                    Tray
+                    <span data-tray-count class="bg-char text-white text-xs font-bold min-w-[1.3rem] h-[1.3rem] px-1 rounded-full inline-flex items-center justify-center">0</span>
+                </button>
+                <button id="mobile-menu-btn" type="button" class="p-2 rounded-md hover:bg-white/10" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-char">
+            <div class="px-4 py-3 flex flex-col text-lg font-medium">
+                <a href="#menu" class="py-3 border-b border-white/10">Menu</a>
+                <a href="#about" class="py-3 border-b border-white/10">About</a>
+                <a href="#visit" class="py-3">Visit</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section id="home" class="hero-bg min-h-[100svh] flex items-end text-white pt-16">
+            <div class="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20">
+                <h1 class="font-display font-extrabold tracking-tight leading-[.95] text-[clamp(3rem,11vw,8.5rem)]">
+                    <span class="line"><span>Taste the</span></span>
+                    <span class="line"><span>magic at</span></span>
+                    <span class="line"><span>Wheezzy's.</span></span>
+                </h1>
+
+                <div class="fade-in mt-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+                    <div class="max-w-md">
+                        <p class="text-lg sm:text-xl text-white/90">Authentic flavors, crafted with passion. Grilled, baked and stacked to order.</p>
+                        <p id="open-status" class="mt-4 inline-flex items-center gap-2 text-sm font-medium bg-white/10 border border-white/20 rounded-full px-4 py-1.5" aria-live="polite"></p>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#menu" class="bg-saffron text-char font-semibold px-7 py-3.5 rounded-full text-lg hover:bg-white">Explore our menu</a>
+                        <button type="button" data-open-tray class="border-2 border-white/70 text-white font-semibold px-7 py-3 rounded-full text-lg hover:bg-white hover:text-char">Start an order</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu -->
+        <section id="menu" class="on-light py-20 sm:py-28">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-2xl">
+                    <h2 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight">Our signature dishes</h2>
+                    <p class="mt-4 text-lg text-char/75">Three plates people come back for. Add them to your tray and send the order when you're ready.</p>
+                </div>
+
+                <noscript><p class="mt-10 text-lg">Please turn on JavaScript to see the menu and place an order.</p></noscript>
+                <div id="signature-grid" class="mt-14 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-14"></div>
+
+                <div class="mt-24">
+                    <h3 class="font-display font-bold text-3xl tracking-tight">Sides and drinks</h3>
+                    <ul id="side-list" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-5"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="bg-char text-white py-20 sm:py-28">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight">Comfort food, cooked like it matters.</h2>
+                    <div class="mt-6 space-y-4 text-lg text-white/80 max-w-prose">
+                        <p>Wheezzy's Kitchen makes the food you crave after a long day. Chicken goes on the grill, pizza goes in the oven and burgers get stacked the moment you order.</p>
+                        <p>Every sauce is made in the kitchen, including the secret Wheezzy sauce that finishes our grilled chicken.</p>
+                    </div>
+                    <a href="#menu" class="mt-8 inline-block bg-saffron text-char font-semibold px-7 py-3 rounded-full hover:bg-white">Pick your plate</a>
+                </div>
+                <div class="order-1 md:order-2 relative">
+                    <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="A double beef burger with melted cheese" class="w-full aspect-[4/5] object-cover rounded-[2rem] rounded-br-[6rem] bg-sauce" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- Visit -->
+        <section id="visit" class="on-light bg-saffron py-20 sm:py-24">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-12">
+                <div class="md:col-span-1">
+                    <h2 class="font-display font-extrabold text-4xl tracking-tight">Come hungry.</h2>
+                    <p class="mt-4 text-char/80 text-lg">Order for pickup or delivery, or sit down with us.</p>
+                </div>
+                <dl class="md:col-span-2 grid sm:grid-cols-3 gap-8 text-lg">
+                    <div>
+                        <dt class="font-display font-bold text-xl">Hours</dt>
+                        <dd class="mt-2 text-char/85">Every day<br><span id="hours-text">11:00 am to 10:00 pm</span></dd>
+                    </div>
+                    <div>
+                        <dt class="font-display font-bold text-xl">Find us</dt>
+                        <dd class="mt-2 text-char/85" id="address-text">Your street address here</dd>
+                    </div>
+                    <div>
+                        <dt class="font-display font-bold text-xl">Call or message</dt>
+                        <dd class="mt-2 text-char/85">
+                            <span id="phone-text">Your phone number here</span>
+                            <a id="wa-link" href="#" target="_blank" rel="noopener" class="hidden mt-3 w-fit items-center bg-char text-white font-semibold px-5 py-2.5 rounded-full hover:bg-sauce">Chat on WhatsApp</a>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-char text-white py-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <p class="font-display font-extrabold text-xl">Wheezzy's <span class="text-saffron">Kitchen</span></p>
+            <p class="text-white/60 text-sm">Serving joy on a plate, every single day. &copy; 2026 Wheezzy's Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Tray drawer -->
+    <div id="scrim" class="scrim fixed inset-0 z-[55] bg-char/60" data-open="false"></div>
+    <aside id="tray" class="drawer on-light fixed top-0 right-0 z-[60] h-full w-full max-w-md bg-butter text-char shadow-2xl flex flex-col" role="dialog" aria-modal="true" aria-labelledby="tray-title" aria-hidden="true">
+        <div class="flex items-center justify-between px-6 h-16 border-b border-char/15 shrink-0">
+            <h2 id="tray-title" class="font-display font-bold text-2xl">Your tray</h2>
+            <button type="button" id="close-tray" class="p-2 rounded-md hover:bg-char/10" aria-label="Close tray">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+        </div>
+
+        <div id="tray-empty" class="flex-1 px-6 py-10">
+            <p class="font-display font-bold text-2xl">Nothing here yet.</p>
+            <p class="mt-2 text-char/75">Add a dish from the menu and it will show up here.</p>
+            <a href="#menu" data-close-tray class="mt-6 inline-block bg-chili text-white font-semibold px-6 py-3 rounded-full hover:bg-sauce">Browse the menu</a>
+        </div>
+
+        <ul id="tray-items" class="flex-1 overflow-y-auto px-6 divide-y divide-char/15 hidden"></ul>
+
+        <div id="tray-footer" class="hidden border-t border-char/15 px-6 py-5 shrink-0 bg-white/50">
+            <div class="flex items-baseline justify-between text-xl font-display font-bold">
+                <span>Total</span><span id="tray-total">₦0</span>
+            </div>
+            <button type="button" id="send-order" class="mt-4 w-full bg-chili text-white font-semibold py-3.5 rounded-full hover:bg-sauce">Send order</button>
+            <p id="send-note" class="mt-3 text-sm text-char/70" aria-live="polite"></p>
+        </div>
+    </aside>
+
+    <script>
+        /* ---------- Edit these ---------- */
+        const CONFIG = {
+            whatsapp: '2348138475286',                // Digits only with country code, e.g. '2348012345678'. Leave empty to copy the order instead.
+            currency: '₦',
+            openHour: 11,                // 24-hour clock
+            closeHour: 22,
+            address: 'Boji Boji Owa, Agbor, Delta State',                 // Shown in the Visit section when filled in
+            phone: '08121433426'                    // Shown in the Visit section when filled in
+        };
+
+        const SIGNATURES = [
+            { id: 'chicken', name: 'Spicy Chicken Delight', desc: 'Perfectly grilled chicken with our secret Wheezzy sauce.', price: 18000,
+              img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Grilled chicken plated with vegetables' },
+            { id: 'pizza', name: 'Classic Margherita Pizza', desc: 'Fresh tomatoes, mozzarella and basil on a crispy crust.', price: 15000,
+              img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Margherita pizza with basil' },
+            { id: 'burger', name: "Wheezzy's Special Burger", desc: 'Double beef patty, melted cheese and caramelized onions.', price: 20000,
+              img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Double beef burger with cheese' }
+        ];
+
+        const SIDES = [
+            { id: 'fries', name: 'Seasoned fries', price: 7000 },
+            { id: 'slaw', name: 'Crunchy coleslaw', price: 5000 },
+            { id: 'garlic', name: 'Garlic bread', price: 6000 },
+            { id: 'lemonade', name: 'Fresh lemonade', price: 4500 },
+            { id: 'soda', name: 'Chilled soda', price: 2500 }
+        ];
+
+        /* ---------- Helpers ---------- */
+        const $ = (s, el = document) => el.querySelector(s);
+        const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+        const money = n => CONFIG.currency + Math.round(n).toLocaleString('en-NG');
+        const ALL = [...SIGNATURES, ...SIDES];
+        const find = id => ALL.find(i => i.id === id);
+        const STORE_KEY = 'wheezzys-tray';
+        const tray = new Map();
+        try {
+            JSON.parse(localStorage.getItem(STORE_KEY) || '[]').forEach(([id, q]) => { if (find(id) && q > 0) tray.set(id, q); });
+        } catch (e) { /* storage unavailable: start with an empty tray */ }
+
+        /* ---------- Render menu ---------- */
+        $('#signature-grid').innerHTML = SIGNATURES.map(i => `
+            <article class="flex flex-col">
+                <div class="relative">
+                    <img src="${i.img}" alt="${i.alt}" loading="lazy" class="w-full aspect-[4/3] object-cover rounded-2xl bg-sauce"
+                         onerror="this.style.visibility='hidden'">
+                    <span class="absolute -bottom-5 right-4 bg-chili text-white font-display font-bold text-xl px-4 py-2 rounded-full -rotate-3 shadow-lg">${money(i.price)}</span>
+                </div>
+                <h3 class="font-display font-bold text-2xl mt-8">${i.name}</h3>
+                <p class="mt-2 text-char/75 flex-1">${i.desc}</p>
+                <button type="button" data-add="${i.id}" class="mt-5 self-start border-2 border-char font-semibold px-6 py-2.5 rounded-full hover:bg-char hover:text-white" aria-label="Add ${i.name} to tray">Add to tray</button>
+            </article>`).join('');
+
+        $('#side-list').innerHTML = SIDES.map(i => `
+            <li class="flex items-end gap-3 text-lg">
+                <span class="font-medium">${i.name}</span>
+                <span class="leader" aria-hidden="true"></span>
+                <span class="font-display font-bold">${money(i.price)}</span>
+                <button type="button" data-add="${i.id}" class="shrink-0 w-9 h-9 rounded-full border-2 border-char text-xl leading-none hover:bg-char hover:text-white" aria-label="Add ${i.name} to tray">+</button>
+            </li>`).join('');
+
+        /* ---------- Tray ---------- */
+        const trayEl = $('#tray'), scrim = $('#scrim');
+        let lastFocus = null;
+
+        function openTray() {
+            lastFocus = document.activeElement;
+            trayEl.setAttribute('aria-hidden', 'false');
+            $$('header, main, footer').forEach(el => el.inert = true);
+            scrim.dataset.open = 'true';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => $('#close-tray').focus(), 50);
+        }
+        function closeTray() {
+            trayEl.setAttribute('aria-hidden', 'true');
+            $$('header, main, footer').forEach(el => el.inert = false);
+            scrim.dataset.open = 'false';
+            document.body.style.overflow = '';
+            if (lastFocus) lastFocus.focus({ preventScroll: true });
+        }
+
+        function renderTray() {
+            const entries = [...tray.entries()];
+            const count = entries.reduce((s, [, q]) => s + q, 0);
+            const total = entries.reduce((s, [id, q]) => s + find(id).price * q, 0);
+
+            try { localStorage.setItem(STORE_KEY, JSON.stringify(entries)); } catch (e) {}
+            $$('[data-tray-count]').forEach(el => el.textContent = count);
+            $('#tray-empty').classList.toggle('hidden', count > 0);
+            $('#tray-items').classList.toggle('hidden', count === 0);
+            $('#tray-footer').classList.toggle('hidden', count === 0);
+            $('#tray-total').textContent = money(total);
+
+            $('#tray-items').innerHTML = entries.map(([id, q]) => {
+                const i = find(id);
+                return `
+                <li class="py-4 flex items-center gap-4">
+                    <div class="flex-1">
+                        <p class="font-semibold">${i.name}</p>
+                        <p class="text-sm text-char/70">${money(i.price)} each</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button type="button" data-dec="${id}" class="w-8 h-8 rounded-full border-2 border-char leading-none hover:bg-char hover:text-white" aria-label="Remove one ${i.name}">&minus;</button>
+                        <span class="w-6 text-center font-semibold" aria-live="polite">${q}</span>
+                        <button type="button" data-add="${id}" data-keep-open class="w-8 h-8 rounded-full border-2 border-char leading-none hover:bg-char hover:text-white" aria-label="Add one more ${i.name}">+</button>
+                    </div>
+                </li>`;
+            }).join('');
+        }
+
+        document.addEventListener('click', e => {
+            const add = e.target.closest('[data-add]');
+            if (add) {
+                const id = add.dataset.add;
+                tray.set(id, (tray.get(id) || 0) + 1);
+                renderTray();
+                $('#send-note').textContent = '';
+                if (!add.hasAttribute('data-keep-open')) {
+                    const label = add.textContent.trim() === '+' ? '+' : 'Add to tray';
+                    add.textContent = label === '+' ? '✓' : 'Added';
+                    setTimeout(() => add.textContent = label, 900);
+                }
+                return;
+            }
+            const dec = e.target.closest('[data-dec]');
+            if (dec) {
+                const id = dec.dataset.dec, q = (tray.get(id) || 0) - 1;
+                q > 0 ? tray.set(id, q) : tray.delete(id);
+                renderTray();
+                return;
+            }
+            if (e.target.closest('[data-open-tray]')) { openTray(); return; }
+            if (e.target.closest('[data-close-tray]') || e.target.closest('#close-tray') || e.target === scrim) closeTray();
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && trayEl.getAttribute('aria-hidden') === 'false') closeTray();
+        });
+
+        $('#send-order').addEventListener('click', async () => {
+            const lines = [...tray.entries()].map(([id, q]) => `${q} x ${find(id).name} (${money(find(id).price * q)})`);
+            const total = [...tray.entries()].reduce((s, [id, q]) => s + find(id).price * q, 0);
+            const text = `Hello Wheezzy's Kitchen, I'd like to order:\n${lines.join('\n')}\nTotal: ${money(total)}`;
+            if (CONFIG.whatsapp) {
+                window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+            } else {
+                try { await navigator.clipboard.writeText(text); $('#send-note').textContent = 'Order copied. Paste it into a message to the restaurant.'; }
+                catch { $('#send-note').textContent = 'Could not copy automatically. Add a WhatsApp number in CONFIG to send orders directly.'; }
+            }
+        });
+
+        /* ---------- Mobile nav ---------- */
+        const btn = $('#mobile-menu-btn'), menu = $('#mobile-menu');
+        btn.addEventListener('click', () => {
+            const open = menu.classList.toggle('hidden') === false;
+            btn.setAttribute('aria-expanded', open);
+        });
+        $$('a', menu).forEach(a => a.addEventListener('click', () => { menu.classList.add('hidden'); btn.setAttribute('aria-expanded', 'false'); }));
+
+        /* ---------- Open / closed status + contact details ---------- */
+        (function () {
+            const h = new Date().getHours();
+            const open = h >= CONFIG.openHour && h < CONFIG.closeHour;
+            const fmt = n => ((n + 11) % 12 + 1) + ':00 ' + (n < 12 || n === 24 ? 'am' : 'pm');
+            $('#open-status').innerHTML = `<span class="w-2.5 h-2.5 rounded-full ${open ? 'bg-green-400' : 'bg-red-400'}"></span>${open ? 'Open now, until ' + fmt(CONFIG.closeHour) : 'Closed now, opens at ' + fmt(CONFIG.openHour)}`;
+            $('#hours-text').textContent = `${fmt(CONFIG.openHour)} to ${fmt(CONFIG.closeHour)}`;
+            if (CONFIG.address) {
+                const a = document.createElement('a');
+                a.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.address);
+                a.target = '_blank'; a.rel = 'noopener'; a.className = 'underline underline-offset-4 font-medium';
+                a.textContent = CONFIG.address;
+                $('#address-text').replaceChildren(a);
+            }
+            if (CONFIG.whatsapp) {
+                const w = $('#wa-link');
+                w.href = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent("Hello Wheezzy's Kitchen, ");
+                w.classList.remove('hidden'); w.classList.add('flex');
+            }
+            if (CONFIG.phone) {
+                const a = document.createElement('a');
+                a.href = 'tel:' + CONFIG.phone.replace(/[^+\d]/g, '');
+                a.className = 'underline underline-offset-4 font-medium';
+                a.textContent = CONFIG.phone;
+                $('#phone-text').replaceChildren(a);
+            }
+        })();
+
+        renderTray();
+    </script>
+</body>
+</html>
